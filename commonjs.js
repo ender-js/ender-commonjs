@@ -43,8 +43,10 @@ Module.prototype['_load'] = function () {
 function package(id, modules, expose, main, bridge) {
   var path, task
   
-  for (path in modules)
+  for (path in modules) {
     new Module(id + '/' + path, modules[path])
+    if (m = path.match(/(.+)\/index/)) new Module(id + '/' + m[1], modules[path])
+  }
   
   // Create the main module
   if (main) require._modules['$' + id] = require._modules['$' + id + '/' + main]
