@@ -1,5 +1,5 @@
 // Integrate all the modules
-integrate()
+Module.integrate()
 
 window['require'] = require
 window['provide'] = provide

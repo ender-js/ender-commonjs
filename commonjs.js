@@ -40,7 +40,7 @@ Module.prototype['_load'] = function () {
   return m.exports
 }
 
-function package(id, modules, expose, main, bridge) {
+Module.package = function (id, modules, expose, main, bridge) {
   var path, task
   
   for (path in modules) {
@@ -57,12 +57,12 @@ function package(id, modules, expose, main, bridge) {
     task.next()
   }
   
-  task.next = integrate
-  integrate = task
+  task.next = Module.integrate
+  Module.integrate = task
 }
 
 // See the lines directly above for how integration tasks get chained
-function integrate() {}
+Module.integrate = function () {}
 
 function require(id) {
   if ('$' + id in require._cache)
