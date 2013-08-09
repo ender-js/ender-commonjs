@@ -4,6 +4,24 @@
   * License MIT
   */
 
+function require(id) {
+  if ('$' + id in require._cache)
+    return require._cache['$' + id]
+  if ('$' + id in require._modules)
+    return (require._cache['$' + id] = require._modules['$' + id]._load())
+  if (id in window)
+    return window[id]
+
+  throw new Error("Ender Error: Requested module '" + id + "' has not been defined.")
+}
+
+function provide(id, exports) {
+  require._cache['$' + id] = exports
+}
+
+require._cache = {}
+require._modules = {}
+
 function Module(id, fn) {
   this.id = id
   this.fn = fn  
@@ -63,21 +81,3 @@ Module.package = function (id, modules, expose, main, bridge) {
 
 // See the lines directly above for how integration tasks get chained
 Module.integrate = function () {}
-
-function require(id) {
-  if ('$' + id in require._cache)
-    return require._cache['$' + id]
-  if ('$' + id in require._modules)
-    return (require._cache['$' + id] = require._modules['$' + id]._load())
-  if (id in window)
-    return window[id]
-
-  throw new Error("Ender Error: Requested module '" + id + "' has not been defined.")
-}
-
-function provide(id, exports) {
-  require._cache['$' + id] = exports
-}
-
-require._cache = {}
-require._modules = {}
