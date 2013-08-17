@@ -58,7 +58,7 @@ Module.prototype['_load'] = function () {
   return m.exports
 }
 
-Module.package = function (id, modules, expose, main, bridge) {
+Module.loadPackage = function (id, modules, expose, main, bridge) {
   var path, task
   
   for (path in modules) {
