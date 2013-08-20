@@ -76,8 +76,8 @@ Module.loadPackage = function (id, modules, expose, main, bridge) {
   }
   
   task.next = Module.integrate
-  Module.integrate = task
+  Module._integrate = task
 }
 
 // See the lines directly above for how integration tasks get chained
-Module.integrate = function () {}
+Module._integrate = function () {}
