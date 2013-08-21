@@ -75,7 +75,7 @@ Module.loadPackage = function (id, modules, expose, main, bridge) {
     task.next()
   }
   
-  task.next = Module.integrate
+  task.next = Module._integrate
   Module._integrate = task
 }
 
