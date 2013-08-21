@@ -66,18 +66,11 @@ Module.loadPackage = function (id, modules, expose, main, bridge) {
     if (m = path.match(/(.+)\/index/)) new Module(id + '/' + m[1], modules[path])
   }
   
-  // Create the main module
-  if (main) require._modules['$' + id] = require._modules['$' + id + '/' + main]
+  // Add the main module entry
+  require._modules['$' + id] = require._modules['$' + id + '/' + main]
   
-  task = function () {
-    if (main) (expose ? (window[id] = require(id)) : require(id))
-    if (bridge) require(id + '/' + bridge)
-    task.next()
-  }
-  
-  task.next = Module._integrate
-  Module._integrate = task
+  if (expose) window[id] = require(id)
+  else require(id)
+    
+  if (bridge) require(id + '/' + bridge)
 }
-
-// See the lines directly above for how integration tasks get chained
-Module._integrate = function () {}
