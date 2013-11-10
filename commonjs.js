@@ -63,14 +63,16 @@ Module.loadPackage = function (id, modules, expose, main, bridge) {
   
   for (path in modules) {
     new Module(id + '/' + path, modules[path])
-    if (m = path.match(/(.+)\/index/)) new Module(id + '/' + m[1], modules[path])
+    if (m = path.match(/^(.+)\/index$/)) new Module(id + '/' + m[1], modules[path])
   }
   
-  // Add the main module entry
-  require._modules['$' + id] = require._modules['$' + id + '/' + main]
-  
-  if (expose) window[id] = require(id)
-  else require(id)
+  if (main) {
+    // Add the main module entry
+    require._modules['$' + id] = require._modules['$' + id + '/' + main]
+
+    if (expose) window[id] = require(id)
+    else require(id)
+  }
     
   if (bridge) require(id + '/' + bridge)
 }
