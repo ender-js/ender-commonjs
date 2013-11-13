@@ -1,6 +1,6 @@
 /*!
   * Ender: open module JavaScript framework (module-lib)
-  * http://ender.no.de
+  * http://enderjs.com
   * License MIT
   */
 
@@ -24,7 +24,7 @@ require._modules = {}
 
 function Module(id, fn) {
   this.id = id
-  this.fn = fn  
+  this.fn = fn
   require._modules['$' + id] = this
 }
 
@@ -42,35 +42,35 @@ Module.prototype['require'] = function (id) {
 
     id = parts.join('/')
   }
-    
+
   return require(id)
 }
 
 Module.prototype['_load'] = function () {
   var m = this
-    
+
   if (!m._loaded) {
     m._loaded = true
     m.exports = {}
     m.fn(m, m.exports, function (id) { return m.require(id) })
   }
-  
+
   return m.exports
 }
 
 Module.loadPackage = function (id, modules, expose, main, bridge) {
   var path, task
-  
+
   for (path in modules) {
     new Module(id + '/' + path, modules[path])
     if (m = path.match(/(.+)\/index/)) new Module(id + '/' + m[1], modules[path])
   }
-  
+
   // Add the main module entry
   require._modules['$' + id] = require._modules['$' + id + '/' + main]
-  
+
   if (expose) window[id] = require(id)
   else require(id)
-    
+
   if (bridge) require(id + '/' + bridge)
 }

@@ -1,8 +1,9 @@
 {
     "name": "ender-commonjs"
   , "description": "commonjs module support for ender"
-  , "version": "1.0.0"
+  , "version": "1.0.1"
   , "keywords": ["ender", "modules", "commonjs"]
+  , "homepage": "http://enderjs.com"
   , "main": "./commonjs.js"
   , "ender": {
         "bare": true
