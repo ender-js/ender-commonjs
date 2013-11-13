@@ -4,6 +4,8 @@
   * License MIT
   */
 
+var global = this
+
 function require(id) {
   if ('$' + id in require._cache)
     return require._cache['$' + id]
@@ -12,7 +14,7 @@ function require(id) {
   if (id in window)
     return window[id]
 
-  throw new Error("Ender Error: Requested module '" + id + "' has not been defined.")
+  throw new Error("Requested module '" + id + "' has not been defined.")
 }
 
 function provide(id, exports) {

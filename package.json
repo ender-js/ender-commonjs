@@ -1,15 +1,12 @@
 {
     "name": "ender-commonjs"
   , "description": "commonjs module support for ender"
-  , "version": "1.0.0"
+  , "version": "0.1.0"
   , "keywords": ["ender", "modules", "commonjs"]
   , "main": "./commonjs.js"
   , "ender": {
         "bare": true
       , "bridge": "./bridge.js"
-    }
-  , "engines": {
-        "node": ">= 0.4.0"
     }
   , "authors": [
         "Andrew McCollum <amccollum@gmail.com>"
