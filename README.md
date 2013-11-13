@@ -21,3 +21,6 @@ provide('client/utils', {
 // access client/utils module
 var format = require('client/utils').formatNumber
 ```
+
+## `Module`
+- supports multi-file modules, internal/relative requires, `index` requiring, requiring submodules, and CommonJS compatibility.
