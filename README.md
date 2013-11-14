@@ -14,7 +14,7 @@ each(select('h1'), function (el) {
 ``` js
 provide('client/utils', {
   formatNumber: function (num) {
-    String(num).replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+    return String(num).replace(/(\d)(?=(\d{3})+$)/g, '$1,')
   }
 })
 
