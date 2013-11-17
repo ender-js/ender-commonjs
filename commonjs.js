@@ -4,6 +4,8 @@
   * License MIT
   */
 
+var global = this
+
 function require(id) {
   if ('$' + id in require._cache)
     return require._cache['$' + id]
@@ -12,7 +14,7 @@ function require(id) {
   if (id in window)
     return window[id]
 
-  throw new Error("Ender Error: Requested module '" + id + "' has not been defined.")
+  throw new Error("Requested module '" + id + "' has not been defined.")
 }
 
 function provide(id, exports) {
@@ -52,7 +54,7 @@ Module.prototype['_load'] = function () {
   if (!m._loaded) {
     m._loaded = true
     m.exports = {}
-    m.fn(m, m.exports, function (id) { return m.require(id) })
+    m.fn.call(global, m, m.exports, function (id) { return m.require(id) }, global)
   }
 
   return m.exports
@@ -63,14 +65,16 @@ Module.loadPackage = function (id, modules, expose, main, bridge) {
 
   for (path in modules) {
     new Module(id + '/' + path, modules[path])
-    if (m = path.match(/(.+)\/index/)) new Module(id + '/' + m[1], modules[path])
+    if (m = path.match(/^(.+)\/index$/)) new Module(id + '/' + m[1], modules[path])
   }
 
-  // Add the main module entry
-  require._modules['$' + id] = require._modules['$' + id + '/' + main]
+  if (main) {
+    // Add the main module entry
+    require._modules['$' + id] = require._modules['$' + id + '/' + main]
 
-  if (expose) window[id] = require(id)
-  else require(id)
+    if (expose) window[id] = require(id)
+    else require(id)
+  }
 
   if (bridge) require(id + '/' + bridge)
 }
