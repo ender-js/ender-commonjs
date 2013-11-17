@@ -20,7 +20,7 @@ Includes the list of modules that have been `required()` by the implementer.
 ``` js
 provide('client/utils', {
   formatNumber: function (num) {
-    String(num).replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+    return String(num).replace(/(\d)(?=(\d{3})+$)/g, '$1,')
   }
 })
 
