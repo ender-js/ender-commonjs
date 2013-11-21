@@ -54,7 +54,7 @@ Module.prototype['_load'] = function () {
   if (!m._loaded) {
     m._loaded = true
     m.exports = {}
-    m.fn.call(global, m, m.exports, function (id) { return m.require(id) }, global)
+    m.fn.call(window, m, m.exports, function (id) { return m.require(id) }, global)
   }
 
   return m.exports
