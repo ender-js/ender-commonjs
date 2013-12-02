@@ -99,11 +99,9 @@ Module.prototype._load = function () {
  * @expose
  * @param  {string}                     id        main module id
  * @param  {Object.<string, function>}  modules   mapping of module ids to definitions
- * @param  {boolean}                    expose    whether the module should be exposed on window
  * @param  {string}                     main      the id of the main module
- * @param  {string}                     bridge    the id of the bridge module
  */
-Module.loadPackage = function (id, modules, expose, main, bridge) {
+Module.createPackage = function (id, modules, main) {
   var path, task
 
   for (path in modules) {
@@ -111,13 +109,5 @@ Module.loadPackage = function (id, modules, expose, main, bridge) {
     if (m = path.match(/^(.+)\/index$/)) new Module(id + '/' + m[1], modules[path])
   }
 
-  if (main) {
-    // Add the main module entry
-    require._modules['$' + id] = require._modules['$' + id + '/' + main]
-
-    if (expose) window[id] = require(id)
-    else require(id)
-  }
-
-  if (bridge) require(id + '/' + bridge)
+  if (main) require._modules['$' + id] = require._modules['$' + id + '/' + main]
 }
