@@ -6,6 +6,10 @@
 
 var global = this
 
+/**
+ * @param  {string}  id   module id to load
+ * @return {object}
+ */
 function require(id) {
   if ('$' + id in require._cache)
     return require._cache['$' + id]
@@ -17,20 +21,43 @@ function require(id) {
   throw new Error("Requested module '" + id + "' has not been defined.")
 }
 
+/**
+ * @param  {string}  id       module id to provide to require calls
+ * @param  {object}  exports  the exports object to be returned
+ */
 function provide(id, exports) {
   require._cache['$' + id] = exports
 }
 
+/**
+ * @expose
+ * @dict
+ */
 require._cache = {}
+
+/**
+ * @expose
+ * @dict
+ */
 require._modules = {}
 
+/**
+ * @constructor
+ * @param  {string}                                          id   module id for this module
+ * @param  {function(Module, object, function(id), object)}  fn   module definition
+ */
 function Module(id, fn) {
   this.id = id
   this.fn = fn
   require._modules['$' + id] = this
 }
 
-Module.prototype['require'] = function (id) {
+/**
+ * @expose
+ * @param  {string}  id   module id to load from the local module context
+ * @return {object}
+ */
+Module.prototype.require = function (id) {
   var parts, i
 
   if (id.charAt(0) == '.') {
@@ -48,11 +75,19 @@ Module.prototype['require'] = function (id) {
   return require(id)
 }
 
-Module.prototype['_load'] = function () {
+/**
+ * @expose
+ * @return {object}
+ */
+Module.prototype._load = function () {
   var m = this
 
   if (!m._loaded) {
     m._loaded = true
+
+    /**
+     * @expose
+     */
     m.exports = {}
     m.fn.call(global, m, m.exports, function (id) { return m.require(id) }, global)
   }
@@ -60,7 +95,13 @@ Module.prototype['_load'] = function () {
   return m.exports
 }
 
-Module.loadPackage = function (id, modules, expose, main, bridge) {
+/**
+ * @expose
+ * @param  {string}                     id        main module id
+ * @param  {Object.<string, function>}  modules   mapping of module ids to definitions
+ * @param  {string}                     main      the id of the main module
+ */
+Module.createPackage = function (id, modules, main) {
   var path, task
 
   for (path in modules) {
@@ -68,13 +109,5 @@ Module.loadPackage = function (id, modules, expose, main, bridge) {
     if (m = path.match(/^(.+)\/index$/)) new Module(id + '/' + m[1], modules[path])
   }
 
-  if (main) {
-    // Add the main module entry
-    require._modules['$' + id] = require._modules['$' + id + '/' + main]
-
-    if (expose) window[id] = require(id)
-    else require(id)
-  }
-
-  if (bridge) require(id + '/' + bridge)
+  if (main) require._modules['$' + id] = require._modules['$' + id + '/' + main]
 }

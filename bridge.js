@@ -1,6 +1,6 @@
-if (ender && ender.export) {
-  ender.export('global', global)
-  ender.export('require', require)
-  ender.export('provide', provide)
-  ender.export('Module', Module)
+if (ender && ender.expose) {
+  ender.expose('global', global)
+  ender.expose('require', require)
+  ender.expose('provide', provide)
+  ender.expose('Module', Module)
 }
