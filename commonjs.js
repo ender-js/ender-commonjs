@@ -102,7 +102,7 @@ Module.prototype._load = function () {
  * @param  {string}                     main      the id of the main module
  */
 Module.createPackage = function (id, modules, main) {
-  var path, task
+  var path
 
   for (path in modules) {
     new Module(id + '/' + path, modules[path])
