@@ -26,7 +26,7 @@ function require(id) {
  * @param  {object}  exports  the exports object to be returned
  */
 function provide(id, exports) {
-  require._cache['$' + id] = exports
+  return (require._cache['$' + id] = exports)
 }
 
 /**
