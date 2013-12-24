@@ -1,15 +1,19 @@
 {
-    "name": "ender-commonjs"
-  , "description": "commonjs module support for ender"
-  , "version": "1.0.4"
-  , "keywords": ["ender", "modules", "commonjs"]
-  , "homepage": "http://enderjs.com"
-  , "main": "./commonjs.js"
-  , "ender": {
-        "bare": true
-      , "bridge": "./bridge.js"
-    }
-  , "authors": [
-        "Andrew McCollum <amccollum@gmail.com>"
-    ]
+  "name": "ender-commonjs",
+  "description": "commonjs module support for ender",
+  "version": "1.0.5",
+  "keywords": [
+    "ender",
+    "modules",
+    "commonjs"
+  ],
+  "homepage": "http://enderjs.com",
+  "main": "./commonjs.js",
+  "ender": {
+    "bare": true,
+    "bridge": "./bridge.js"
+  },
+  "authors": [
+    "Andrew McCollum <amccollum@gmail.com>"
+  ]
 }
