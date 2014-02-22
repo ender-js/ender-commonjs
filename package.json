@@ -15,5 +15,11 @@
   },
   "authors": [
     "Andrew McCollum <amccollum@gmail.com>"
-  ]
+  ],
+  "scripts": {
+    "lint": "./node_modules/.bin/jshint ."
+  },
+  "devDependencies": {
+    "jshint": "~2.4.4"
+  }
 }

@@ -18,7 +18,7 @@ function require(id) {
   if (id in window)
     return window[id]
 
-  throw new Error("Requested module '" + id + "' has not been defined.")
+  throw new Error('Requested module "' + id + '" has not been defined.')
 }
 
 /**
@@ -67,7 +67,7 @@ Module.prototype.require = function (id) {
       parts.splice(i, 1)
 
     while ((i = parts.lastIndexOf('..')) > 0)
-      parts.splice(i-1, 2)
+      parts.splice(i - 1, 2)
 
     id = parts.join('/')
   }
