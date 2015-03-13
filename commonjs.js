@@ -79,21 +79,30 @@ Module.prototype.require = function (id) {
  * @expose
  * @return {object}
  */
-Module.prototype._load = function () {
-  var m = this
+ Module.prototype._load = function () {
+   var m = this
+   var dotdotslash = /^\.\.\//g
+   var dotslash = /^\.\/[^\/]+$/g
+   if (!m._loaded) {
+     m._loaded = true
 
-  if (!m._loaded) {
-    m._loaded = true
+     /**
+      * @expose
+      */
+     m.exports = {}
+     m.fn.call(global, m, m.exports, function (id) {
+       if (id.match(dotdotslash)) {
+         id = m.id.replace(/[^\/]+\/[^\/]+$/, '') + id.replace(dotdotslash, '')
+       }
+       else if (id.match(dotslash)) {
+         id = m.id.replace(/\/[^\/]+$/, '') + id.replace('.', '')
+       }
+       return m.require(id)
+     }, global)
+   }
 
-    /**
-     * @expose
-     */
-    m.exports = {}
-    m.fn.call(global, m, m.exports, function (id) { return m.require(id) }, global)
-  }
-
-  return m.exports
-}
+   return m.exports
+ }
 
 /**
  * @expose
